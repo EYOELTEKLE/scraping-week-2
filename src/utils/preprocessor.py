@@ -72,3 +72,23 @@ class ReviewPreprocessor:
         print(df.isnull().sum())
 
         return df
+
+    def preprocess_texts_with_spacy(self, texts):
+        """
+        Preprocesses texts using spaCy: tokenization, stop-word removal, lemmatization.
+        Args:
+            texts (list of str): List of review texts.
+        Returns:
+            list of str: Cleaned, lemmatized texts.
+        """
+        try:
+            import spacy
+            nlp = spacy.load('en_core_web_sm')
+        except Exception as e:
+            print(f"spaCy not available or model not loaded: {e}")
+            return [str(t) for t in texts]
+        cleaned = []
+        for doc in nlp.pipe(texts, disable=["ner", "parser"]):
+            tokens = [token.lemma_.lower() for token in doc if not token.is_stop and token.is_alpha]
+            cleaned.append(' '.join(tokens))
+        return cleaned
