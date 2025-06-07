@@ -60,10 +60,10 @@ ehthumbs.db
 Thumbs.db
 
 # Data files & Sensitive information
+.env
 *.csv
 *.json
 *.log
-*.env
 secrets.yaml
 config.ini
 
